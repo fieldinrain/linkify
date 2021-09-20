@@ -70,25 +70,30 @@ class LinkifyOptions {
   /// Excludes `.` at end of URLs.
   final bool excludeLastPeriod;
 
+  /// Replace shown URLs to some text
+  /// When [replaceUrl] is set, [humanize] and [removeWww] will be ignored.
+  final String Function(String)? replaceUrl;
+
   const LinkifyOptions({
     this.humanize = true,
     this.removeWww = false,
     this.looseUrl = false,
     this.defaultToHttps = false,
     this.excludeLastPeriod = true,
+    this.replaceUrl
   });
 }
 
 const _urlLinkifier = UrlLinkifier();
 const _emailLinkifier = EmailLinkifier();
-const defaultLinkifiers = [_urlLinkifier, _emailLinkifier];
+const _userTagLinkifier = UserTagLinkifier();
+const defaultLinkifiers = [_urlLinkifier, _emailLinkifier, _userTagLinkifier];
 
 /// Turns [text] into a list of [LinkifyElement]
 ///
-/// Use [humanize] to remove http/https from the start of the URL shown.
-/// Will default to `false` (if `null`)
+/// Use [options] to change the humanization of URLs
 ///
-/// Uses [linkTypes] to enable some types of links (URL, email).
+/// Uses [linkifiers] to enable some types of links (URL, email, userTag).
 /// Will default to all (if `null`).
 List<LinkifyElement> linkify(
   String text, {

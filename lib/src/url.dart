@@ -56,21 +56,21 @@ class UrlLinkifier extends Linkifier {
                   originalUrl;
             }
 
-            if ((options.humanize) || (options.removeWww)) {
-              if (options.humanize) {
-                url = url.replaceFirst(RegExp(r'https?://'), '');
-              }
-              if (options.removeWww) {
-                url = url.replaceFirst(RegExp(r'www\.'), '');
-              }
-
-              list.add(UrlElement(
-                originalUrl,
-                url,
-              ));
-            } else {
-              list.add(UrlElement(originalUrl));
+            if (options.replaceUrl != null) {
+              url = options.replaceUrl!(url);
             }
+            
+            if (options.humanize) {
+              url = url.replaceFirst(RegExp(r'https?://'), '');
+            }
+            if (options.removeWww) {
+              url = url.replaceFirst(RegExp(r'www\.'), '');
+            }
+            
+            list.add(UrlElement(
+              originalUrl,
+              url,
+            ));
 
             if (end != null) {
               list.add(TextElement(end));

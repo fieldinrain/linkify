@@ -113,6 +113,20 @@ void main() {
     );
   });
 
+  test('Parses links with text with replaceUrl', () {
+    expectListEqual(
+      linkify(
+        "https://google.com\nLorem ipsum\ndolor sit amet\nhttps://example.com",
+        options: LinkifyOptions(replaceUrl: (url) => url.startsWith('https://google.com') ? 'google' : url),
+      ),
+      [
+        UrlElement("https://google.com", "google"),
+        TextElement("\nLorem ipsum\ndolor sit amet\n"),
+        UrlElement("https://example.com", "example.com"),
+      ],
+    );
+  });
+
   test('Parses email', () {
     expectListEqual(
       linkify("person@example.com"),
